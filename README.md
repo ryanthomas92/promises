@@ -93,14 +93,20 @@ task("dude")  // returns a promise
 1. What would you see logged in the console from the first example above?
 
   <details><summary>click for answer</summary>
-  `"dude"`
+  ```
+  "dude"
+  "resolved! dude"
+  ```
   </details>
 
 1. What would you see logged in the console from the second example?
 
   <details><summary>click for answer</summary>
-  `"dude"`
-  `"dude"`
+  ```
+  "dude"
+  "dude"
+  "resolved! dude"
+  ```
   </details>
 
 

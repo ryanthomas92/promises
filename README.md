@@ -42,9 +42,9 @@ Deferreds are objects in Angular that represent deferred tasks. Each "promise" i
 
 ```js
 function task(str){ // set up a function to use with promises
-  console.log(str);
   var deferred = $q.defer();  // create a new 'deferred'
   // do some work...
+  console.log(str);
 
   // in what case(s) should the deferred be resolved (success)?
   // write code to actually **resolve** the promise in each case...
@@ -69,13 +69,13 @@ Elsewhere in our code,  we can run the function and attach next steps for succes
 ```js
 task("dude")  // returns a promise
   .then(success, error);
-  
-function success(resolvReturnValue){
-  console.log(resolvReturnValue);
+
+function success(resolveReturnValue){
+  console.log('resolved!', resolveReturnValue);
 }
 
 function error(rejectReturnValue){
-  console.log(rejectReturnValue);
+  console.log('rejected!', rejectReturnValue);
 }
 ```
 
@@ -83,7 +83,6 @@ function error(rejectReturnValue){
 
 Promises can also be chained:
 ```js
-// elsewhere in our code,  we can run the function and attach next steps
 task("dude")  // returns a promise
   .then(task) // returns a promise
   .then(success, error);
@@ -94,14 +93,20 @@ task("dude")  // returns a promise
 1. What would you see logged in the console from the first example above?
 
   <details><summary>click for answer</summary>
-  `"dude"`
+  ```
+  "dude"
+  "resolved! dude"
+  ```
   </details>
 
 1. What would you see logged in the console from the second example?
 
   <details><summary>click for answer</summary>
-  `"dude"`
-  `"dude"`
+  ```
+  "dude"
+  "dude"
+  "resolved! dude"
+  ```
   </details>
 
 

@@ -42,7 +42,7 @@ Deferreds are objects in Angular that represent deferred tasks. Each "promise" i
 
 ```js
 function task(str){ // set up a function to use with promises
-  console.log(str);
+
   var deferred = $q.defer();  // create a new 'deferred'
   // do some work...
 

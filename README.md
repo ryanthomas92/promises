@@ -81,4 +81,11 @@ task("dude")  // returns a promise
 
 ### Independent Practice
 
-Play around with the simple Angular app in the sample-code directory.  Remember to check your console output. If you feel you understand how the `addOne` function is working, implement a `square` function that also returns a promise and can be used in the same way.
+1. Fork and clone this repo.
+
+2. Play around with the simple Angular app in the sample-code directory.  Remember to check your console output. Investigate how the `addOne` function is working.  Try calling it a few more times. 
+
+3. As you start to feel comfortable with `addOne`, implement a `square` function in this controller that can be used in the same way.
+
+### Additional Resources
+* [`$q` documentation](https://docs.angularjs.org/api/ng/service/$q)

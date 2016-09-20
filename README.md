@@ -1,302 +1,84 @@
-# Better Patterns: Services & Promises
+# Promises
 
-| Objectives |
-| ----------| 
-| Be able to DRY code by moving code into a Service |
-| Be able to use a Service as a data model |
-| Be able to return a promise which can be resolved in the controller |
-| Be able to replace $http with ngResource | 
+- Explain the purpose of promises.
+- Draw the lifecycle of a promise.
+- Manipulate promises using Angular’s $q service.
 
-
-| Wordbank |  | | | |
-| --------- | ------- | -------- | ------- | ------- |
-| Service   | data model |   |  |   |
-| `$q.defer`| promise | deferred | `.then(success, error) | reject |
-| resolve |     |    |    |    | 
-
-## What is a controller's job?  
-
-Answer: to control the view-model
-
-
-```js
-BooksIndexController.$inject=['$http'];
-function BooksIndexController($http) {
-  var vm = this;
-
-  $http({
-    method: 'GET',
-    url: 'https://super-crud.herokuapp.com/books'
-  }).then(onBooksIndexSuccess, onError)
-
-  function onBooksIndexSuccess(response){
-    console.log('here\'s the get all books response data', response.data);
-    vm.books = response.data.books;
-  }
-  function onError(error){
-    console.log('there was an error: ', error);
-  }
-};
-```
-
-##### What's a view model?
-
-Answer: mainly, that's the version of the data that ties into your page.  In short, the controller manages the page; it's the presentation logic. [view model](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)
-
-
-##### Why does the controller have to worry so much about `$http` then?
-
-Answer: it shouldn't.
-
-
-## **Separation of concerns** & **Single Responsibility** or how I learned to use Services
-
-At long last it's time that we moved our data management into a separate concern.  We'll use a **Service** for that.  Our services will be a little bit like the front-end equivalent to our mongoose models.  
-
-Services'll:
-
-  * represent a record or set of records.  
-  * manage fetching records as needed
-
-Controllers should not:
-
-  * know where data comes from or how to get it - only who (what) to ask
-  * be able to work with `$http` or any other sort of retrieval protocol
- 
- 
- **Yeah, we're really changing where stuff goes here.**
- 
- 
-## Deferreds and Promises
- 
-**Deferreds promise** to run the attached callbacks when they finish.
+## "Deferred" and Promises
 
 Promises are:
 
-* A way to pass around something that hasn't finished yet; and still be able to attach more 'callbacks' to it.  
-* A popular interview topic
+* A way to pass around a value that hasn't actually been calculated yet.
+* A way to attach callback-like behavior to a function call that hasn't completed yet.
+* A popular interview topic.
 * Anything you can `.then( ... )`  on.
-* Something that can either be *resolved* or *failed*.
+* Something that can be *pending*, then gets *resolved/fulfilled* or *rejected/failed*.
+
+<img src="http://www.mediumequalsmessage.com/blog-images/promises.png" width="70%">
+> <small>Imgae source: http://blog.mediumequalsmessage.com/promise-deferred-objects-in-javascript-pt1-theory-and-semantics </small>
+
+
+
 
 You've seen them before.
 
-##### jQuery and Angular both have implementations of promises as do many other libraries.
+May libraries - including jQuery and Angular -- have implementations of promises. Can you think of an example from Angular?
 
-There are a few minor provisos.  The various implementations all over javascript land have all been a little bit different.  The good news is, the JS/ES6 community has pretty much settled on standards for this now.
+There are a few minor provisos.  Various implementations of promises have all been a little bit different.  The good news is the JS/ES6 community has pretty much settled on standards for this now.
 
 ![provisos](http://evolveandsucceed.com/wp-content/uploads/2014/05/03-provisos.gif)
 
+
+### `$q` basics
+
 The promise library in Angular is `$q`.
 
-#### `$q` basics
+Deferreds are objects in Angular that represent deferred tasks. Each "promise" is the eventual result of a deferred task.  These structures let our code "promise" to run the attached functions when the deferred task is finished, whether it was successful or not.
+
+> A new instance of deferred is constructed by calling `$q.defer()`. The purpose of the deferred object is to expose the associated Promise instance as well as APIs that can be used for signaling the successful or unsuccessful completion, as well as the status of the task.
+
+
+### Code Sample
 
 ```js
-var def = $q.defer();  // create a new 'deferred'
+function task(str){ // set up a function to use with promises
+  console.log(str);
+  var deferred = $q.defer();  // create a new 'deferred'
+  // do some work...
 
-var promise = def.promise;
+  // in what case(s) should the deferred be resolved (success)?
+  // write code to actually **resolve** the promise in each case...
+  if (str === "dude" || str === "sweet"){
+    deferred.resolve(str);  // argument gets passed to promise success
+  } else if (str === "Where's my car?"){
+    deferred.resolve("Aww man...");
+  }
+  // in what case(s) should the deferred be rejected (error)?
+  // write code to actually **reject** the promise in each case
+  else {
+    deferred.reject("Error: " + str + "not recognized.");
+  }
 
-// elsewhere we can attach a call back
-promise.then(successFunction, errorFunction);
-
-// and yet elsewhere we write code to **resolve** the promise
-def.resolve(data);
-// or **reject** it
-def.reject("Failed: ", error);
-```
-
-#### Why are we talking about this?
-
-Our services will abstract the *getting* *http* logic away and simply return promises to the controllers.
-
-
-## Service Implementation
-
-So now we have all the code we need to implement a service for all of our RESTful routes.  
-We'll need 5 basic methods:
-
-* query  - gets all of a resource
-* get    - gets a specific resource (usually by id)
-* remove - removes a resource
-* update - alters an existing resource
-* save   - store a new instance of a resource
-
-Each of these methods will follow the same basic pattern and return a *promise* to whatever controllers use it.
-
-```js
-// basic pattern to follow in query, get, remove, update or save
-
-var def = $q.defer();
-
-$http({ ... }).then(success, error);
-
-// note that this return usually occurs before the $http request has finished.
-return def.promise;
-
-
-function success(response) {
-	// ... do stuff
-	def.resolve(response.data);	
-}
-function error(err) {
-	// ... do stuff
-	def.reject({error: err});
+  var promise = deferred.promise;  // set up access to this eventual (promised) result
+  return promise;  // return the promise
 }
 ```
 
-Later on in your controller code, you can use this.  
 
+Elsewhere in our code,  we can run the function and attach next steps for successful resolution or for rejection.
 ```js
-// controller.js
-MyService.get(id).then(mySuccess, myError)
+task("dude")  // returns a promise
+  .then(success, error);
 ```
 
-#### Sample Code
-
+Promises can also be chained:
 ```js
-
-BookService.$inject = ['$http', '$q'];
-function BookService(   $http,   $q) {
-  console.log('service');
-  var self = this;  // similar to vm = this, but we're not working with a view-model here so using the 'generic' form for this closure
-  self.book = {};
-  self.books = [];
-  self.query = query;  // get all books
-  self.get = get;     // get one book
-  self.update = update;  // update a book
-  self.remove = remove;  // delete a book
-
-  
-  /* * * * * * * * * * * * * * * *
-   *  Fetch all books
-   *
-   * * * * * * * * * * * * * * * */
-
-  function query() {
-    console.log('someone requested all the books');
-  
-    // create a new 'deferred'
-    var def = $q.defer();
-    // fire off the request
-    $http({
-      method: 'GET',
-      url: 'https://super-crud.herokuapp.com/books'
-    }).then(onBooksIndexSuccess, onError);
-
-    // we return the promise here - whenever it's complete any other .then's you attach will get run too
-    return def.promise;
-    
-
-
-    // note how these functions are defined within the body of another function?
-    // that gives them access to variables from that function
-    // - see lexical scope & closures https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
-    function onBooksIndexSuccess(response){
-      console.log('here\'s the get all books response data from the service', response.data);
-      self.books = response.data.books;
-      // ok, we got data, resolve the deferred - at this point we get to choose what we send on to the controller
-      def.resolve(self.books);
-    }
-    function onError(error){
-      console.log('there was an error: ', error);
-      self.books.error = {error: error};
-      // oh noes!  error - reject the deferred - at this point we get to choose what we send on to the controller
-      def.reject(self.books.error);
-    }
-  }
-
-
-
-
-  /* * * * * * * * * * * * * * * *
-   *  Fetch a single book
-   *
-   * * * * * * * * * * * * * * * */
-
-  function get(bookId) {
-    console.log('someone requested book', bookId);
-  
-    var def = $q.defer();  // create a new 'deferred'
-
-    $http({
-      method: 'GET',
-      url: 'https://super-crud.herokuapp.com/books/'+bookId
-    }).then(onBookShowSuccess, onError);
-
-    // we return the promise here - whenever it's complete any other .then's you attach will get run too
-    return def.promise;
-
-
-
-    // note how these functions are defined within the body of another function?
-    // that gives them access to variables from that function
-    // - see lexical scope & closures https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
-    function onBookShowSuccess(response) {
-      console.log('BookService: here\'s the data for book', bookId, ':', response.data);
-      self.book = response.data;
-      // ok, we got data, resolve the deferred - at this point we get to choose what we send on to the controller
-      def.resolve(self.book);
-    }
-    function onError(error){
-      console.log('there was an error: ', error);
-      self.book = {error: error};
-      // oh noes!  error - reject the deferred - at this point we get to choose what we send on to the controller
-      def.reject(self.book);
-    }
-  }
+// elsewhere in our code,  we can run the function and attach next steps
+task("dude")  // returns a promise
+  .then(task) // returns a promise
+  .then(success, error);
 ```
 
+### Independent Practice
 
-## ngResource
-
-Great job, you wrote your own service.  
-
-Many sites employ RESTful conventions and in large-part serve things in very similar ways.  So why do we need so much code for this?
-
-It turns out the Angular devs thought of that a long time ago.  ngResource implements a service very similar to the one we just built; with much less code!
-
-
-#### Using ngResource
-
-1. First add the correct script tag
-	`<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-resource.js"></script>`
-
-1. Include ngResource in your angular module.
-	`angular.module('libraryApp', ['ngRoute', 'ngResource'])`
-
-1. List $resource as a dependency for your Service
-	`function BookService($http, $q, $resource) {`
-
-
-
-```js
-
-angular.module('libraryApp')
-  .service('BookService', BookService);
-
-BookService.$inject = ['$http', '$q', '$resource'];
-function BookService($http, $q, $resource) {
-  console.log('service');
-  var self = this;  // similar to vm = this, but we're not working with a view-model here so using the 'generic' form for this closure
-  self.book = {};  // we'll let get fill this in when it can
-  self.books = [];  // we'll let getAll fill this in when it can
-  // self.getAll = index;
-  // self.show = show;
-  // self.update = update;
-  // self.destroy = destroy;
-  resource = $resource('https://super-crud.herokuapp.com/books/:id', { id: '@_id' }, {
-      update: {
-        method: 'PUT' // this method issues a PUT request
-      },
-      query: {
-        isArray: true,
-        transformResponse: function(data) {
-            return angular.fromJson(data).books; // this grabs the books from the response data: `{books: [...]}`
-        }
-      }
-    });
-  return resource;
-```
-	
-#### ngResource resources
-
-* [http://www.sitepoint.com/creating-crud-app-minutes-angulars-resource/](http://www.sitepoint.com/creating-crud-app-minutes-angulars-resource/)
+Play around with the simple Angular app in the sample-code directory.  Remember to check your console output. If you feel you understand how the `addOne` function is working, implement a `square` function that also returns a promise and can be used in the same way.

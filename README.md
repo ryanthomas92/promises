@@ -83,7 +83,6 @@ function error(rejectReturnValue){
 
 Promises can also be chained:
 ```js
-// elsewhere in our code,  we can run the function and attach next steps
 task("dude")  // returns a promise
   .then(task) // returns a promise
   .then(success, error);

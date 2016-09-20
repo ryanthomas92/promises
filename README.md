@@ -1,10 +1,44 @@
+<!--
+Creator: Team, most recent editing by Brianna
+Location: SF
+-->
+
+![](https://ga-dash.s3.amazonaws.com/production/assets/logo-9f88ae6c9c3871690e33280fcf557f33.png)
+
 # Promises
+
+### Why is this important?
+<!-- framing the "why" in big-picture/real world examples -->
+*This workshop is important because:*
+
+Promises are a powerful pattern for asynchronous behavior in JavaScript. They come up in interviews, and they're actually conceptually pretty simple. They're used a lot across libraries.
+
+### What are the objectives?
+<!-- specific/measurable goal for students to achieve -->
+*After this workshop, developers will be able to:*
 
 - Explain the purpose of promises.
 - Draw the lifecycle of a promise.
 - Manipulate promises using Angular’s $q service.
 
-## "Deferred" and Promises
+
+### Where should we be now?
+<!-- call out the skills that are prerequisites -->
+*Before this workshop, developers should already be able to:*
+
+- Make an `$http` call, attaching success and error handlers with `.then()`.
+- Create a simple Angular app with one controller.
+
+### Warm Up
+
+Let's go over the following questions:
+
+1. What is a promise?
+1. What does it mean for a promise to be pending, fulfilled, resolved, and rejected?
+1. How does promise "chaining" work?
+1. Draw the lifecycle of a promise.  
+
+### "Deferred" and Promises
 
 Promises are:
 
@@ -19,14 +53,17 @@ Promises are:
 
 
 
+#### Check for Understanding
 
-You've seen them before.
+You've used promises before. Many libraries - including jQuery and Angular -- have implementations of promises.
 
-May libraries - including jQuery and Angular -- have implementations of promises. Can you think of an example from Angular?
+1. Can you think of an example of promises from Angular?
 
-There are a few minor provisos.  Various implementations of promises have all been a little bit different.  The good news is the JS/ES6 community has pretty much settled on standards for this now.
 
 ![provisos](http://evolveandsucceed.com/wp-content/uploads/2014/05/03-provisos.gif)
+
+There are a few minor provisos.  Various implementations of promises have all been a little bit different across libraries and languages. We'll dive in with Angular's `$q`.
+
 
 
 ### `$q` basics
@@ -114,9 +151,16 @@ task("dude")  // returns a promise
 
 1. Fork and clone this repo.
 
-2. Play around with the simple Angular app in the sample-code directory.  Remember to check your console output. Investigate how the `addOne` function is working.  Try calling it a few more times. 
+2. Play around with the simple Angular app in the sample-code directory.  Remember to check your console output. Investigate how the `addOne` function is working.  Try calling it a few more times.
 
 3. As you start to feel comfortable with `addOne`, implement a `square` function in this controller that can be used in the same way.
+
+### Closing Thoughts
+
+1. What is a promise?
+1. What does it mean for a promise to be pending, fulfilled, resolved, and rejected?
+1. How does promise "chaining" work?
+1. Draw the lifecycle of a promise.
 
 ### Additional Resources
 * [`$q` documentation](https://docs.angularjs.org/api/ng/service/$q)

@@ -14,8 +14,8 @@ Promises are:
 * Anything you can `.then( ... )`  on.
 * Something that can be *pending*, then gets *resolved/fulfilled* or *rejected/failed*.
 
-<img src="http://www.mediumequalsmessage.com/blog-images/promises.png" width="70%">
-> <sup>Image source: http://blog.mediumequalsmessage.com/promise-deferred-objects-in-javascript-pt1-theory-and-semantics </sup>
+<img src="http://www.mediumequalsmessage.com/blog-images/promises.png" width="70%"><br>
+<sup>Image source: http://blog.mediumequalsmessage.com/promise-deferred-objects-in-javascript-pt1-theory-and-semantics </sup>
 
 
 

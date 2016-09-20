@@ -69,7 +69,17 @@ Elsewhere in our code,  we can run the function and attach next steps for succes
 ```js
 task("dude")  // returns a promise
   .then(success, error);
+  
+function success(resolvReturnValue){
+  console.log(resolvReturnValue);
+}
+
+function error(rejectReturnValue){
+  console.log(rejectReturnValue);
+}
 ```
+
+
 
 Promises can also be chained:
 ```js
@@ -78,6 +88,22 @@ task("dude")  // returns a promise
   .then(task) // returns a promise
   .then(success, error);
 ```
+
+### Check for Understanding
+
+1. What would you see logged in the console from the first example above?
+
+  <details><summary>click for answer</summary>
+  `"dude"`
+  </details>
+
+1. What would you see logged in the console from the second example?
+
+  <details><summary>click for answer</summary>
+  `"dude"`
+  `"dude"`
+  </details>
+
 
 ### Independent Practice
 

@@ -15,7 +15,7 @@ Promises are:
 * Something that can be *pending*, then gets *resolved/fulfilled* or *rejected/failed*.
 
 <img src="http://www.mediumequalsmessage.com/blog-images/promises.png" width="70%">
-> <small>Imgae source: http://blog.mediumequalsmessage.com/promise-deferred-objects-in-javascript-pt1-theory-and-semantics </small>
+> <sup>Image source: http://blog.mediumequalsmessage.com/promise-deferred-objects-in-javascript-pt1-theory-and-semantics </sup>
 
 
 

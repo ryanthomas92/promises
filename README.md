@@ -163,4 +163,7 @@ task("dude")  // returns a promise
 1. Draw the lifecycle of a promise.
 
 ### Additional Resources
-* [`$q` documentation](https://docs.angularjs.org/api/ng/service/$q)
+* [`$q` documentation](https://docs.angularjs.org/api/ng/service/$q)  
+* [Cartoon explanation of promises](http://andyshora.com/promises-angularjs-explained-as-cartoon.html), by Andy Shora  
+*  MDN's [JavaScript Promise documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)  
+* [Angular's `$q` service example (video)](https://www.youtube.com/watch?v=W2PBVEgMijo) 

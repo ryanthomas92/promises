@@ -35,8 +35,6 @@ Let's go over the following questions:
 
 1. What is a promise?
 1. What does it mean for a promise to be pending, fulfilled, resolved, and rejected?
-1. How does promise "chaining" work?
-1. Draw the lifecycle of a promise.  
 
 ### "Deferred" and Promises
 

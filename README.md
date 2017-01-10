@@ -35,6 +35,7 @@ Let's go over the following questions:
 
 1. What is a promise?
 1. What does it mean for a promise to be pending, fulfilled, resolved, and rejected?
+1. Draw it!
 
 ### "Deferred" and Promises
 
@@ -46,9 +47,8 @@ Promises are:
 * Anything you can `.then( ... )`  on.
 * Something that can be *pending*, then gets *resolved/fulfilled* or *rejected/failed*.
 
-<img src="http://www.mediumequalsmessage.com/blog-images/promises.png" width="70%"><br>
-<sup>Image source: http://blog.mediumequalsmessage.com/promise-deferred-objects-in-javascript-pt1-theory-and-semantics </sup>
 
+There are a few minor provisios (small print!).  Various implementations of promises have all been a little bit different across libraries and languages. We'll dive in with Angular's `$q`.
 
 
 #### Check for Understanding
@@ -58,17 +58,11 @@ You've used promises before. Many libraries - including jQuery and Angular -- ha
 1. Can you think of an example of promises from Angular?
 
 
-![provisos](http://evolveandsucceed.com/wp-content/uploads/2014/05/03-provisos.gif)
-
-There are a few minor provisos.  Various implementations of promises have all been a little bit different across libraries and languages. We'll dive in with Angular's `$q`.
-
-
-
 ### `$q` basics
 
 The promise library in Angular is `$q`.
 
-Deferreds are objects in Angular that represent deferred tasks. Each "promise" is the eventual result of a deferred task.  These structures let our code "promise" to run the attached functions when the deferred task is finished, whether it was successful or not.
+Deferreds are objects in Angular that represent deferred tasks, tasks that haven't completed yet. Each "promise" is the eventual result of a deferred task.  These structures let our code "promise" that it will run a particular function when the deferred task is finished. We usually specify different functions to run based on whether the task was successful or not.
 
 > A new instance of deferred is constructed by calling `$q.defer()`. The purpose of the deferred object is to expose the associated Promise instance as well as APIs that can be used for signaling the successful or unsuccessful completion, as well as the status of the task.
 
@@ -79,13 +73,13 @@ Deferreds are objects in Angular that represent deferred tasks. Each "promise" i
 function task(str){ // set up a function to use with promises
   var deferred = $q.defer();  // create a new 'deferred'
   // do some work...
-  console.log(str);
+  console.log(str);  // usually this work can take a long time to complete!
 
   // in what case(s) should the deferred be resolved (success)?
   // write code to actually **resolve** the promise in each case...
   if (str === "dude" || str === "sweet"){
     deferred.resolve(str);  // argument gets passed to promise success
-  } else if (str === "Where's my car?"){
+  } else if (str === "I lost the car!"){
     deferred.resolve("Aww man...");
   }
   // in what case(s) should the deferred be rejected (error)?
@@ -118,7 +112,7 @@ function error(rejectReturnValue){
 
 Promises can also be chained:
 ```js
-task("dude")  // returns a promise
+task("dude")  // returns a promise 
   .then(task) // returns a promise
   .then(success, error);
 ```
@@ -165,3 +159,4 @@ task("dude")  // returns a promise
 * [Cartoon explanation of promises](http://andyshora.com/promises-angularjs-explained-as-cartoon.html), by Andy Shora  
 *  MDN's [JavaScript Promise documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)  
 * [Angular's `$q` service example (video)](https://www.youtube.com/watch?v=W2PBVEgMijo) 
+* [Promise history](http://blog.mediumequalsmessage.com/promise-deferred-objects-in-javascript-pt1-theory-and-semantics)

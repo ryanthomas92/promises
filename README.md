@@ -34,7 +34,7 @@ Promises are a powerful pattern for asynchronous behavior in JavaScript. They co
 Let's go over the following questions:
 
 1. What is a promise?
-1. What does it mean for a promise to be pending, fulfilled, resolved, and rejected?
+1. What does it mean for a promise to be pending, resolved, and rejected?
 1. Represent a deferred task and promise with a drawing, text, skit, song. Whatever moves you!
 
 ### "Deferred" and Promises

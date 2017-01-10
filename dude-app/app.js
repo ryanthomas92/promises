@@ -8,12 +8,12 @@ function DudeController($q){
   function task(str){ // set up a function to use with promises
     var deferred = $q.defer();  // create a new 'deferred'
     // do some work...
-    console.log(str);
+    console.log(str);   // usually more work than this
     // in what case(s) should the deferred be resolved (success)?
     // write code to actually **resolve** the promise in each case...
     if (str === "dude" || str === "sweet"){
       deferred.resolve(str);  // argument gets passed to promise success
-    } else if (str === "Where's my car?"){
+    } else if (str === "I lost the car."){
       deferred.resolve("Aww man...");
     }
     // in what case(s) should the deferred be rejected (error)?

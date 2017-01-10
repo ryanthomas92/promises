@@ -11,6 +11,7 @@ function CountController($q){
     var deferred = $q.defer();
 
     // do some work...
+    // ... not much to do before we decide how to resolve and reject the task
 
     // in what case(s) should the deferred be resolved (success)?
     if (angular.isNumber(num)){

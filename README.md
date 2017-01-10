@@ -147,6 +147,8 @@ task("dude")  // returns a promise
 
 3. As you start to feel comfortable with `addOne`, implement a `square` function in this controller that can be used in the same way.
 
+4. If you finish early, take turns suggesting math-themed functions for your partner to implement. Then, they should drive while you help. Trade off for each function!
+
 ### Closing Thoughts
 
 1. What is a promise?

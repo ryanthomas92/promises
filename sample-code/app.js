@@ -33,19 +33,25 @@ function CountController($q){
   }
 
   vm.square = function(num){
-    // TODO: fill this in!
-    // The square function should return a promise
-    // that resolves to num * num (for the input num).
-    // Check that num is a number - reject if not.
-    // (This will enable the .then(vm.square) line below)
+    var deferred = $q.defer();
+    if (angular.isNumber(num)) {
+      var result = Math.pow(num, 2);
+      console.log('... resolved with result', result);
+      deferred.resolve(result);
+    }
+    else {
+      console.log('... rejected');
+      deferred.reject(NaN);
+    }
+    return deferred.promise;
   }
 
   vm.value = 0;    // should calculate value
   // vm.value = 'c';  // should give value NaN
   vm.addOne(vm.value)       // returns a promise
     .then(vm.addOne)        // returns a promise
+    .then(vm.square)        // returns a promise
     .then(vm.addOne)        // returns a promise
-    // .then(vm.square)        // returns a promise
     .then(success, error);
 
 
